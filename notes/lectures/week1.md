@@ -1,5 +1,6 @@
-## [分享會] AI時代，Web3開發者所需的能力
+## 0519
 
+### [分享會] AI時代，Web3開發者所需的能力
 ### 引言：
 Q1: 有了AI，是否還要學習基礎知識？
 A: Of course, 有了AI，分析人與AI的專業邊界，人：設計方案，AI：協助人設計方案（細化方案、補足缺失、有效快速的方案執行），人應作為AI的審查者（AI並未降低複雜度）。
@@ -79,3 +80,29 @@ Unchange:
 2. 錯誤成本: 人應確保AI安全是可控的
 3. 安全邊界
 => 駕馭AI，而不是被AI驅動
+
+---
+## 05/19
+
+## [分享會] 探索AI Agent的新世界地圖
+分享人：Draken老師
+
+### AI的進化：
+問答模式 ChatGPT -> 任務執行 Agent
+
+### AI常用類型
+1. 聊天型AI: 常用的ChatGPT、Gemini、Claude
+2. AI IDE: Cursor，AI的開發工具
+3. CLI型: agents living in terminal
+4. 模型平台
+5. Hermes Agent/OpenClaw
+
+### Hermes Agent
+* Def: Agents' assitance
+* Pros: multi-models, Cron Scheduling, Gateway channels, long-term memory and iterated learning by itself.
+
+* Why Hermes Agent?
+- Easy for beginner
+- 長期記憶能力、學習閉環
+
+---
