@@ -1,0 +1,556 @@
+{
+  "title": "AI 術語知識單字卡",
+  "source": "curriculums/data/",
+  "categories": [
+    {
+      "id": "llm",
+      "name": "LLM 大語言模型",
+      "terms": [
+        {
+          "term": "Token",
+          "definition": "模型處理文字的基本單位，由 tokenizer 切分，影響上下文容量、調用成本與資訊完整性。"
+        },
+        {
+          "term": "Embedding",
+          "definition": "將文字或程式碼映射成向量，衡量語義相近度，常用於搜尋、聚類與 RAG，但不能替代來源校驗。"
+        },
+        {
+          "term": "Transformer",
+          "definition": "現代 LLM 的核心架構，透過 Attention 機制關注輸入中不同位置，擅長找模式，但不是事實資料庫。"
+        },
+        {
+          "term": "Hallucination（幻覺）",
+          "definition": "模型生成看似合理但不真實的內容，防禦核心是接外部校驗（來源引用、schema 驗證），而非只靠改 prompt。"
+        },
+        {
+          "term": "Multimodal（多模態）",
+          "definition": "模型同時處理文字、圖片、音訊等多種輸入，讓 AI 能讀懂截圖、圖表等真實工作介面。"
+        }
+      ]
+    },
+    {
+      "id": "finetuning",
+      "name": "Fine-tuning 微調",
+      "terms": [
+        {
+          "term": "Fine-tuning（微調）",
+          "definition": "透過額外訓練讓模型學習特定格式或領域行為，適合解決 prompt 無法穩定處理的一致性問題，而非用來補充即時知識。"
+        },
+        {
+          "term": "SFT（Supervised Fine-Tuning）",
+          "definition": "用輸入與期望輸出的配對樣本訓練模型，對資料品質極為敏感，樣本有錯誤會被穩定學進去。"
+        },
+        {
+          "term": "LoRA（Low-Rank Adaptation）",
+          "definition": "只訓練小型適配參數而非整個模型，大幅降低顯存需求，常用於開源模型的快速試驗與微調。"
+        },
+        {
+          "term": "PEFT（Parameter-Efficient Fine-Tuning）",
+          "definition": "參數高效微調方法的統稱，LoRA 是其中一種，適合模型大、完全微調成本高、任務範圍明確的場景。"
+        },
+        {
+          "term": "Dataset（資料集）",
+          "definition": "Fine-tuning 的核心資產，需分成訓練集、驗證集、測試集與回歸集，測試集絕不能拿去訓練。"
+        },
+        {
+          "term": "Overfitting（過擬合）",
+          "definition": "模型把訓練資料記得太死，導致真實場景表現變差，通常由樣本太少、風格太單一或訓練太多輪造成。"
+        }
+      ]
+    },
+    {
+      "id": "prompt",
+      "name": "Prompt 提示詞",
+      "terms": [
+        {
+          "term": "Prompt（提示詞）",
+          "definition": "人與模型的介面設計，是軟約束而非安全邊界，真正的邊界必須由程式碼、權限與校驗承擔。"
+        },
+        {
+          "term": "Instruction（指令）",
+          "definition": "給模型的任務規則，建議拆成四段：任務目標、可用輸入、禁止行為、輸出格式與失敗格式。"
+        },
+        {
+          "term": "Few-shot（少樣本示範）",
+          "definition": "在 prompt 放少量示例讓模型模仿輸出格式，適合難以一句話說清的任務，但示例需隨規則變更同步維護。"
+        },
+        {
+          "term": "Structured Output（結構化輸出）",
+          "definition": "讓模型按固定結構（如 JSON schema）返回結果，讓後續程式碼能夠檢查、拒絕與回歸測試。"
+        },
+        {
+          "term": "Prompt Injection（提示詞注入）",
+          "definition": "攻擊者透過用戶輸入或檢索內容讓模型忽略原始規則，防禦核心是標記外部內容為不可信並對工具調用做參數校驗。"
+        }
+      ]
+    },
+    {
+      "id": "rag",
+      "name": "RAG 檢索增強生成",
+      "terms": [
+        {
+          "term": "RAG（Retrieval-Augmented Generation）",
+          "definition": "先從知識庫找相關材料再讓模型回答，讓回答有來源、有版本、有邊界，而非單靠模型內部知識。"
+        },
+        {
+          "term": "Chunking（切片）",
+          "definition": "把長文件切成可檢索片段，建議按結構切（標題、API endpoint）並保留來源 URL 與版本，避免語義斷裂或噪聲過多。"
+        },
+        {
+          "term": "Vector DB（向量資料庫）",
+          "definition": "儲存 embedding 並按相似度檢索 chunk 的資料庫，應同時存 metadata（來源、版本、可信等級）以過濾無效結果。"
+        },
+        {
+          "term": "Retriever（檢索器）",
+          "definition": "根據用戶問題取回候選材料的元件，問題含版本、時間、地址等具體條件時不應只做純向量搜尋。"
+        },
+        {
+          "term": "Rerank（重排序）",
+          "definition": "初步檢索後重新排序，把更相關、更可信的內容排前，適合候選結果多或混合檢索的場景，但會增加延遲。"
+        },
+        {
+          "term": "Citation（引用）",
+          "definition": "把答案的關鍵結論連回來源，是用戶驗證答案的入口，至少需說明文件來源、是否官方與版本時間。"
+        }
+      ]
+    },
+    {
+      "id": "agent",
+      "name": "Agent 智能體",
+      "terms": [
+        {
+          "term": "Agent（智能體）",
+          "definition": "能持續調用工具、讀取狀態、調整步驟的 AI 系統，本質是被約束的執行循環，需明確目標、工具、權限與停止條件。"
+        },
+        {
+          "term": "Tool Use（工具調用）",
+          "definition": "Agent 調用外部能力（搜尋、API、程式碼執行等）的機制，設計時需明確權限範圍、是否只讀與是否有外部副作用。"
+        },
+        {
+          "term": "Planning（規劃）",
+          "definition": "把目標拆成步驟，模型生成的計劃只是候選路線而非授權，越靠近高風險動作越需要系統規則逐步檢查。"
+        },
+        {
+          "term": "State（狀態）",
+          "definition": "Agent 當前任務的完整狀態，包含目標、步驟、工具返回與確認記錄，需可查詢、可恢復、可審計，不能只靠聊天歷史。"
+        },
+        {
+          "term": "Reflection（反思）",
+          "definition": "Agent 自我檢查中間結果並修正下一步，可提高品質，但不能替代外部驗證——模型可能給自己的錯誤找理由。"
+        },
+        {
+          "term": "Multi-Agent（多智能體）",
+          "definition": "多個 Agent 分工協作，適合複雜工作流，但容易放大上下文傳遞丟失、責任邊界模糊與工具權限擴散等問題。"
+        }
+      ]
+    },
+    {
+      "id": "inference",
+      "name": "Inference 推理服務",
+      "terms": [
+        {
+          "term": "Inference（推理服務）",
+          "definition": "模型在真實產品中響應用戶的過程，核心是在延遲、成本、品質與隱私的約束下交付可用答案。"
+        },
+        {
+          "term": "API Model（雲端模型 API）",
+          "definition": "透過雲端服務調用模型，上手快但仍需處理速率限制、超時重試、帳單控制與輸出回歸等工程問題。"
+        },
+        {
+          "term": "Local Model（本地模型）",
+          "definition": "在私有環境中運行模型，適合隱私要求高或成本敏感的場景，但顯存、量化與推理框架都會影響效果。"
+        },
+        {
+          "term": "Quantization（量化）",
+          "definition": "降低模型精度（如 FP16 → INT4）以減少顯存需求，可能影響輸出品質，需用自己的任務樣本測試而非靠主觀體驗判斷。"
+        },
+        {
+          "term": "Serving（服務化）",
+          "definition": "把模型部署成穩定服務，需處理請求隊列、streaming、監控與版本灰度，Serving 做不好，線上問題會很難排查。"
+        }
+      ]
+    },
+    {
+      "id": "frameworks",
+      "name": "Frameworks 框架",
+      "terms": [
+        {
+          "term": "LangChain",
+          "definition": "覆蓋模型接入、prompt、工具、retriever 與 agent 的 LLM 開發框架，適合快速組合能力，但應先理解工作流再套框架。"
+        },
+        {
+          "term": "LangGraph",
+          "definition": "把 Agent 或多步驟任務表示成 graph 的框架，顯式管理 state，適合需要多輪工具調用、重試、分支與恢復的複雜工作流。"
+        },
+        {
+          "term": "OpenAI Agents SDK",
+          "definition": "官方 SDK，組織 Agent 工具、多 Agent handoff、guardrails 與 tracing，但工具邊界與確認流程仍需自行定義。"
+        },
+        {
+          "term": "DSPy",
+          "definition": "把 prompt pipeline 寫成可優化程序，讓 optimizer 根據資料集自動改進 prompt，適合有明確評估指標的可重複任務。"
+        },
+        {
+          "term": "Learning Agent（學習型智能體）",
+          "definition": "可從反饋或評估結果中改進的 Agent，正確做法是先進評估閉環再上線，而非把線上反饋直接變成行為變化。"
+        }
+      ]
+    },
+    {
+      "id": "mcp",
+      "name": "MCP 模型上下文協議",
+      "terms": [
+        {
+          "term": "MCP（Model Context Protocol）",
+          "definition": "標準化模型與外部工具連接的協議，讓工具接入可描述、可發現、可限制，而非每個應用各自實作適配層。"
+        },
+        {
+          "term": "MCP Server",
+          "definition": "暴露 resources、tools 與 prompts 的服務端，設計重點是邊界：哪些只讀、哪些有副作用、是否需要授權。"
+        },
+        {
+          "term": "MCP Client",
+          "definition": "連接模型與 MCP Server 的客戶端，負責工具發現、用戶確認提示與會話隔離。"
+        },
+        {
+          "term": "Tool Schema（工具描述）",
+          "definition": "描述工具名稱、參數、返回值與約束的結構定義，schema 模糊時模型會用錯誤參數填空。"
+        },
+        {
+          "term": "Permission（權限）",
+          "definition": "MCP 最容易被低估的問題，需區分只讀 vs. 寫入、當前會話 vs. 長期授權，以及是否可撤銷與審計。"
+        }
+      ]
+    },
+    {
+      "id": "context",
+      "name": "Context 上下文",
+      "terms": [
+        {
+          "term": "Context Window（上下文窗口）",
+          "definition": "模型一次請求能處理的最大上下文範圍，窗口大不代表模型會完美使用所有細節，應配合檢索與摘要使用。"
+        },
+        {
+          "term": "Context Engineering（上下文工程）",
+          "definition": "設計資訊進入模型方式的工程實踐，目標是讓模型在正確的資訊層級工作，而非把窗口塞滿。"
+        },
+        {
+          "term": "Memory（記憶）",
+          "definition": "跨請求保留的資訊（如用戶偏好），可提升體驗，但不能替代即時授權，涉及資產或權限的記憶必須重新綁定當前會話。"
+        },
+        {
+          "term": "Knowledge Base（知識庫）",
+          "definition": "系統可檢索的外部知識來源，需維護來源、更新時間與版本，否則 RAG 只會更穩定地傳遞舊錯誤。"
+        }
+      ]
+    },
+    {
+      "id": "vibecoding",
+      "name": "Vibe Coding 氛圍編程",
+      "terms": [
+        {
+          "term": "Vibe Coding",
+          "definition": "人與 AI Coding Agent 共同迭代軟體的工作方式，人負責方向與驗收，Agent 負責生成與執行，需清楚管理 repo、任務與測試邊界。"
+        },
+        {
+          "term": "Claude Code / Codex CLI",
+          "definition": "把 AI Agent 整合進本地開發環境的工具，關鍵是明確哪些文件可改、哪些命令可跑，以及何時必須讓人確認。"
+        },
+        {
+          "term": "Repo Workflow（倉庫工作流程）",
+          "definition": "把 AI Coding 接入正式工程流程（issue、commit、test、review），讓 Agent 參與而非繞過版本控制與審查機制。"
+        }
+      ]
+    },
+    {
+      "id": "evaluation",
+      "name": "Evaluation 評估",
+      "terms": [
+        {
+          "term": "Evaluation（評估）",
+          "definition": "用樣本、指標與評分判斷系統是否真的改進，沒有 eval 就無法區分真實提升、運氣或測試樣本不足。"
+        },
+        {
+          "term": "Harness（評估框架）",
+          "definition": "運行 eval 的框架，負責餵樣本、調用系統、評分與記錄結果，核心價值是讓 eval 可重複執行以比較不同版本。"
+        },
+        {
+          "term": "Golden Set（黃金測試集）",
+          "definition": "精心挑選的測試樣本集，早期 30–100 條高品質樣本比大量隨機問題更有用，需覆蓋正常問題、邊界情況與歷史 bug。"
+        },
+        {
+          "term": "LLM-as-Judge（模型評分員）",
+          "definition": "用模型給模型輸出評分，適合評估開放式答案，需搭配規則評分與人工抽檢，Judge 模型本身也會偏。"
+        },
+        {
+          "term": "Regression（回歸測試）",
+          "definition": "防止舊問題復發的機制，每次發現 bug 就加入樣本集，每次改動前後都重新跑。"
+        },
+        {
+          "term": "Observability（可觀測性）",
+          "definition": "線上觀察系統真實行為的能力，記錄輸入、工具調用、輸出、錯誤與成本，補充 eval 看不到的真實失敗場景。"
+        }
+      ]
+    },
+    {
+      "id": "wallet",
+      "name": "Wallet 錢包",
+      "terms": [
+        {
+          "term": "EOA（Externally Owned Account）",
+          "definition": "由私鑰控制的外部帳戶，可簽名、發交易、調用合約，但私鑰丟失難恢復、權限無法細分、自動化能力弱。"
+        },
+        {
+          "term": "Mnemonic（助記詞）",
+          "definition": "用來恢復私鑰的一組單詞，任何網頁、客服或 AI 要求輸入助記詞都應默認視為危險，產品不應索取助記詞。"
+        },
+        {
+          "term": "Transaction（交易）",
+          "definition": "對鏈上狀態的正式請求，需經錢包確認、簽名、廣播、打包與執行，每一步都可能失敗，前端必須處理所有狀態。"
+        },
+        {
+          "term": "Gas",
+          "definition": "支付鏈上執行與儲存資源的費用，產品需讓用戶知道預估費用、支付資產、失敗時是否仍消耗費用。"
+        },
+        {
+          "term": "Explorer（區塊瀏覽器）",
+          "definition": "查看地址、交易、合約與事件的工具，AI 產品引用鏈上資訊時應提供 explorer 連結讓用戶自行驗證。"
+        }
+      ]
+    },
+    {
+      "id": "cryptography",
+      "name": "Cryptography 密碼學",
+      "terms": [
+        {
+          "term": "Hash（雜湊）",
+          "definition": "將任意資料映射成固定長度指紋的函數，用於驗證同一性與完整性，不能被解密還原，鏈上常用來標識交易與區塊。"
+        },
+        {
+          "term": "Public Key（公鑰）",
+          "definition": "與私鑰配對的公開資訊，可用來驗證簽名是否來自對應私鑰，無法反推出私鑰，以太坊地址是公鑰的進一步衍生。"
+        },
+        {
+          "term": "Private Key（私鑰）",
+          "definition": "帳戶控制權本身，用來生成簽名，一旦洩漏攻擊者可直接轉走資產，不可截圖、上傳雲端或貼給任何第三方。"
+        },
+        {
+          "term": "Signature（數位簽名）",
+          "definition": "由私鑰對消息生成的授權證明，驗證者可用公鑰確認來源，產品應展示可讀簽名目的而非只顯示十六進制數據。"
+        },
+        {
+          "term": "Merkle Tree",
+          "definition": "逐層雜湊大量資料得到一個 root，讓用戶可用 Merkle proof 證明特定資料屬於整體，而不必下載全部資料，常見於空投名單與輕客戶端。"
+        }
+      ]
+    },
+    {
+      "id": "smartcontracts",
+      "name": "Smart Contract 智能合約",
+      "terms": [
+        {
+          "term": "Solidity",
+          "definition": "EVM 生態最常見的合約語言，核心概念包含 storage、msg.sender、modifier、event 與 revert，錯誤權限設定會直接影響資產安全。"
+        },
+        {
+          "term": "EVM（Ethereum Virtual Machine）",
+          "definition": "運行智能合約的虛擬機，Solidity 編譯成 EVM 字節碼後由節點執行，解釋了為何 gas 存在、storage 成本高以及合約可跨 EVM 鏈部署。"
+        },
+        {
+          "term": "ABI（Application Binary Interface）",
+          "definition": "描述合約函數、參數、返回值與事件的接口說明，告訴工具能調用什麼，但不保證調用是否安全，不是安全說明書。"
+        },
+        {
+          "term": "Event（合約事件）",
+          "definition": "合約向外部系統留下的可索引日誌，適合讓前端、索引器與分析工具追蹤轉帳、訂單或參數變更等動作。"
+        },
+        {
+          "term": "Upgrade（合約升級）",
+          "definition": "透過 proxy 或治理保留修改合約邏輯的能力，引入管理員權限與治理攻擊風險，需說清楚升級權限歸屬與是否有 timelock。"
+        }
+      ]
+    },
+    {
+      "id": "accountabstraction",
+      "name": "Account Abstraction 帳戶抽象",
+      "terms": [
+        {
+          "term": "ERC-4337",
+          "definition": "以太坊帳戶抽象標準，透過 UserOperation、Bundler 與 EntryPoint 讓智能帳戶在不改變底層協議的情況下實現可編程驗證與執行。"
+        },
+        {
+          "term": "Smart Account（智能帳戶）",
+          "definition": "由合約控制的帳戶，可實現多簽、社交恢復、批量交易與細粒度權限，但合約 bug 與升級邏輯也會成為帳戶風險。"
+        },
+        {
+          "term": "Bundler",
+          "definition": "收集 UserOperation、模擬驗證並提交到 EntryPoint 的服務，是 ERC-4337 生態的基礎設施依賴，不穩定會導致操作卡住。"
+        },
+        {
+          "term": "Paymaster",
+          "definition": "允許第三方代付 gas 或讓用戶以非原生資產付費的合約，常用於新用戶 onboarding，但需風控防止 spam 與套利。"
+        },
+        {
+          "term": "Session Key（會話金鑰）",
+          "definition": "給應用或 Agent 的臨時限制性權限，可設定有效期、調用合約、方法、額度與鏈 ID，是 AI Agent 自動執行低風險動作的關鍵基礎。"
+        }
+      ]
+    },
+    {
+      "id": "defi",
+      "name": "DeFi 去中心化金融",
+      "terms": [
+        {
+          "term": "AMM（Automated Market Maker）",
+          "definition": "用流動性池與定價公式替代訂單簿的去中心化交易機制，流動性越深價格衝擊越小，需注意滑點、無常損失與 MEV 風險。"
+        },
+        {
+          "term": "Slippage（滑點）",
+          "definition": "預期成交價格與實際成交價格的差距，大額交易或流動性不足時滑點增大，Agent 執行 swap 時必須設定滑點上限。"
+        },
+        {
+          "term": "Lending（借貸協議）",
+          "definition": "讓用戶存入資產賺取利息或抵押借款的鏈上協議，健康因子低於閾值會觸發清算，AI 建議必須包含抵押率與清算價格說明。"
+        },
+        {
+          "term": "Stablecoin（穩定幣）",
+          "definition": "設計為維持固定價值的 token，可由法幣儲備、超額抵押或算法機制支撐，「穩定」不是天然保證，需了解錨定機制與脫錨風險。"
+        },
+        {
+          "term": "Liquidity（流動性）",
+          "definition": "資產能以合理價格成交的能力，流動性不足會導致 swap 滑點增大、借貸清算困難、預言機價格易被操縱。"
+        },
+        {
+          "term": "MEV（Maximal Extractable Value）",
+          "definition": "礦工或驗證者透過重排序、插入或審查交易所能提取的額外價值，sandwich attack 是最常見的 MEV 攻擊形式。"
+        }
+      ]
+    },
+    {
+      "id": "oracle",
+      "name": "Oracle 預言機",
+      "terms": [
+        {
+          "term": "Oracle（預言機）",
+          "definition": "把鏈外資料（價格、事件結果、儲備證明等）以可被合約使用的方式帶進鏈上的機制，數據錯誤或延遲會直接影響合約執行。"
+        },
+        {
+          "term": "Price Feed（價格餵送）",
+          "definition": "最常見的預言機形式，為 DeFi 合約提供資產價格，讀取時需檢查 feed 地址、decimals、更新時間與是否為異常值。"
+        },
+        {
+          "term": "Oracle Risk（預言機風險）",
+          "definition": "鏈外資料進入鏈上執行時引入的系統風險，包含數據源被操縱、feed 更新延遲、stale price 未處理，常與 DeFi 風險疊加。"
+        },
+        {
+          "term": "AI Oracle",
+          "definition": "把 AI 模型推理或評分結果提交給鏈上系統的方向，需記錄輸入數據與模型版本，高風險場景應引入挑戰機制或多人驗證。"
+        }
+      ]
+    },
+    {
+      "id": "network",
+      "name": "Network 網路",
+      "terms": [
+        {
+          "term": "Block（區塊）",
+          "definition": "交易被批量提交與排序的單位，包含交易列表、前一區塊引用與狀態根，交易順序影響執行結果，區塊 gas limit 限制網路吞吐。"
+        },
+        {
+          "term": "Consensus（共識）",
+          "definition": "網路決定哪段歷史有效的機制，讓互不信任的節點對區塊順序達成一致，影響交易確認安全數與前端對最終性的假設。"
+        },
+        {
+          "term": "PoS（Proof of Stake）",
+          "definition": "以太坊當前共識機制，驗證者質押 ETH 參與出塊，行為不當會被懲罰（slashing），網路安全來自經濟質押而非算力。"
+        },
+        {
+          "term": "Testnet（測試網）",
+          "definition": "用於驗證合約、錢包連接與交易流程的測試環境，資產無真實價值，但不能替代主網安全審查，MEV 與攻擊動機不同。"
+        },
+        {
+          "term": "L2（Layer 2）",
+          "definition": "在主網安全基礎上提供更低費用與更快確認的擴展層，多了橋、提現等待與排序器等複雜性，產品需清楚展示當前網路。"
+        },
+        {
+          "term": "Rollup",
+          "definition": "主流 L2 擴展路線，把執行搬到鏈下再把結果提交回 L1，分 Optimistic Rollup 與 ZK Rollup，各有不同的提現延遲與安全假設。"
+        }
+      ]
+    },
+    {
+      "id": "indexing",
+      "name": "Indexing 索引",
+      "terms": [
+        {
+          "term": "Event Indexing（事件索引）",
+          "definition": "監聽合約日誌並整理成可查詢記錄的技術，設計 event 時需考慮是否含關鍵地址、是否有 indexed 參數、升級後是否兼容。"
+        },
+        {
+          "term": "Subgraph",
+          "definition": "用聲明式方式描述合約事件索引規則並透過 GraphQL 提供查詢的工具，適合構建協議數據 API，但需維護 schema 與處理 reorg。"
+        },
+        {
+          "term": "RPC（Remote Procedure Call）",
+          "definition": "應用與節點交互的接口，適合讀取當前狀態與發送交易，不適合承載大量歷史查詢，公共 RPC 有 rate limit 與數據不一致風險。"
+        },
+        {
+          "term": "Data Pipeline（數據管道）",
+          "definition": "把鏈上事件、鏈下數據與業務事件組合成可分析、可監控系統的完整流程，AI Agent 依賴的上下文數據需標記來源與更新時間。"
+        }
+      ]
+    },
+    {
+      "id": "security",
+      "name": "Security 安全",
+      "terms": [
+        {
+          "term": "Reentrancy（重入攻擊）",
+          "definition": "合約在外部調用未完成前被再次調用，導致狀態被重複利用的經典漏洞，防禦核心是 Checks-Effects-Interactions 模式與 reentrancy guard。"
+        },
+        {
+          "term": "Access Control（存取控制）",
+          "definition": "決定誰能執行 mint、pause、upgrade、withdraw 等敏感動作，需問清楚 owner 是否為多簽、是否有 timelock、私鑰洩漏最壞結果。"
+        },
+        {
+          "term": "Audit（審計）",
+          "definition": "外部安全審查，可發現設計與實現問題，但不保證永遠安全，需確認審計代碼版本與上線代碼一致，升級後需重新評估。"
+        },
+        {
+          "term": "Simulation（交易模擬）",
+          "definition": "在用戶或 Agent 簽名前預演交易執行結果，可攔截鏈 ID 錯誤、合約地址錯誤、授權額度異常等明顯問題，但無法替代審計。"
+        },
+        {
+          "term": "Monitoring（監控）",
+          "definition": "上線後持續偵測異常轉帳、權限變更、價格波動與 TVL 流出的安全感知層，需配合明確的響應流程才能有效止損。"
+        }
+      ]
+    },
+    {
+      "id": "devstack",
+      "name": "Dev Stack 開發棧",
+      "terms": [
+        {
+          "term": "Remix",
+          "definition": "瀏覽器版 Solidity IDE，適合入門、教學與快速驗證，但不適合替代工程化 repo，多人協作時應遷移到 Hardhat 或 Foundry。"
+        },
+        {
+          "term": "Hardhat",
+          "definition": "提供本地開發網路、編譯、測試、部署腳本與插件生態的合約開發框架，與 TypeScript 和 CI 整合自然，適合前端團隊。"
+        },
+        {
+          "term": "Foundry",
+          "definition": "以命令列與 Solidity-native 測試為核心的合約開發工具，包含 forge、cast、anvil，支援 fuzz testing 與 fork test，反饋速度快。"
+        },
+        {
+          "term": "OpenZeppelin",
+          "definition": "提供 ERC-20、ERC-721、AccessControl 等常見合約模組的安全庫，降低基礎風險，但組合邏輯與升級權限仍需自行驗證。"
+        },
+        {
+          "term": "viem / wagmi",
+          "definition": "前端與鏈交互的 TypeScript 庫，viem 提供底層調用能力，wagmi 提供 React hooks，使用時需清楚區分錢包連接、讀取與寫交易的狀態。"
+        }
+      ]
+    }
+  ]
+}

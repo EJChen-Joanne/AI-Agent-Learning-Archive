@@ -1,5 +1,5 @@
 # Week 1 個人學習計畫
-> AIxWeb3 School｜2026-05-18（週一）～ 2026-05-22（週五）
+> AIxWeb3 School｜2026-05-18（週一）～ 2026-05-24（週日）
 
 ---
 
@@ -147,7 +147,7 @@
 
 ### GitHub Repo 與交付物
 
-- [ ] 創建個人 GitHub Repo（含 README、notes/、prompts/、demos/、logs/、resources.md）
+- [x] 創建個人 GitHub Repo（含 README、notes/、prompts/、demos/、logs/、resources.md）
 - [ ] 提交 Learning Agent 設定記錄與 API 路徑說明
 - [ ] 提交至少一次 agent 協助學習或編碼的日誌
 - [ ] 提交可互動學習產物到 demos/（quiz / 流程圖 / 概念卡片）
@@ -259,7 +259,7 @@
 
 | 日期 | 完成項目 | 遇到的問題 | 下一步 |
 |------|---------|-----------|--------|
-| 2026-05-18 | | | |
+| 2026-05-18 | 使用ClaudeCode設定個人學習助手，使用telegram設定完/goal每日任務、/notes每日重點統整 | 尚未make agent live 24/7、資料源不足| 部署agent、設定Hermes agent/OpenClaw、增加學習資料源 |
 | 2026-05-19 | | | |
 | 2026-05-20 | | | |
 | 2026-05-21 | | | |
