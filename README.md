@@ -33,6 +33,22 @@ AIxWeb3 School/
 
 ---
 
+### 學習工具
+
+#### AI Agent
+- ClaudeCode、Telegram API、OpenClaw
+
+#### Web3
+- 合約：Solidity v.0.8.28、Hardhat框架(v.3)+Foundry測試、Openzeppelin
+- 合約交互：viem為主、ethers.js為輔
+- 錢包：Metamask、AA(permissionless.js、Kernel)、KeyManagement(Web3Auth)
+- 後端：TypeScript in NestJS
+- 鏈上資料Indexing：Subgraph
+- RPC Nodes: Infura
+- Testnet: Sepolia、Base Sepolia
+
+---
+
 ## Demos
 
 ### Learning Bot 
