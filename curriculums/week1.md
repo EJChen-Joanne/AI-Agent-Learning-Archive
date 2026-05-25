@@ -150,8 +150,8 @@
 - [x] 創建個人 GitHub Repo（含 README、notes/、prompts/、demos/、logs/、resources.md）
 - [ ] 提交 Learning Agent 設定記錄與 API 路徑說明
 - [ ] 提交至少一次 agent 協助學習或編碼的日誌
-- [ ] 提交可互動學習產物到 demos/（quiz / 流程圖 / 概念卡片）
-- [ ] README 說明：讓 agent 做了什麼、人工修改了什麼、哪些輸出不可靠
+- [x] 提交可互動學習產物到 demos/（quiz / 流程圖 / 概念卡片）
+- [x] README 說明：讓 agent 做了什麼、人工修改了什麼、哪些輸出不可靠
 - [ ] 整理一份「行業觀察清單」（信息源、關鍵連結、觀察筆記、待驗證問題）
 
 ### 安全意識確認
